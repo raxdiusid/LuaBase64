@@ -3,68 +3,49 @@
 A 8 bits sequence for ASCII.
 ]]--  
 
-function to8bit(ascii_list, decimal, _8bit_list) 
+function to8bit(chr, _8bit_list) 
 	
 	--[[
-	:param ascii_list: Array of ascii.
-	:param decimal: their starting decimal code. (Defined in ascii table)
+	:param chr: string
 	:param _8bit_list: list to be inserted.
 	]]-- 
 	
-	for i, v in pairs(ascii_list) do 
 	
-		temp = decimal 
+		decimal_code = string.byte(chr)
 		local _8bit_binary = ""
 	
-		while temp >= 1 do 
+		while decimal_code >= 1 do 
 		
-			local per_binary = temp % 2
+			local per_binary = decimal_code % 2
 			_8bit_binary = _8bit_binary..tostring(per_binary)
 		
-			temp = math.floor(temp / 2)
+			decimal_code = math.floor(decimal_code / 2) 
 		
 		end 
 		
-		decimal = decimal + 1
-		
-		--_8bit_list[tostring(v)] = "0"..string.reverse(_8bit_binary)
 		local pushz = ""
 		while (#_8bit_binary + #pushz) <= 7 do 
 			_8bit_binary = _8bit_binary.."0"
 		end 
-		_8bit_list[v] = pushz..string.reverse(_8bit_binary)
+		_8bit_list[chr] = pushz..string.reverse(_8bit_binary)
 	
 	end 
-end
 
-function ascii_add(ascii_sequence, ascii_base) 
-	-- just a helper function.
-	for _, v in pairs(ascii_sequence) do 
-		for __, value in pairs(v) do 
-			table.insert(ascii_base, value)
-		end 
-	end 
-end 
+local bit = {} -- A table that contain this module.
 
-local bit = {}
-local _8bit = {} 
-
+local _8bit = {} -- 8 bit ascii.
 local sub, format = string.sub, string.format 
 
 local ascii = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 
 	'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
-	'U', 'V', 'W', 'X', 'Y', 'Z'} 
-local ascii_lowercase = {} 
-local number = {}
-for j = 0, 9 do table.insert(number, tostring(j)) end 
-for _, v in pairs(ascii) do table.insert(ascii_lowercase, v:lower()) end
+	'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+	'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+	's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3',
+	'4', '5', '6', '7', '8', '9'
+} 
 
-ascii_add({ascii_lowercase, number}, ascii)
-
-local decimal = {65, 97, 48} 
-
-for i, table in pairs({ascii, ascii_lowercase, number}) do 
-	to8bit(table, decimal[i], _8bit)
+for i, chr in pairs(ascii) do 
+	to8bit(chr, _8bit)
 end 
 
 bit["_8bit"] = _8bit 
