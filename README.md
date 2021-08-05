@@ -5,7 +5,7 @@ More docs about Base64 here:
 
 # Installation
 ```
-- git https://github.com/uClaster/LuaBase64.git
+- git clone https://github.com/uClaster/LuaBase64.git
 - locate the modules. 
 ```
 
